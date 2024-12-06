@@ -1,13 +1,13 @@
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
-from datetime import datetime # Mengimpor modul fungsi
+from datetime import datetime 
 
 class AplikasiSPBU:
     def __init__(self, root):
         self.root = root
         self.root.title("Aplikasi Pendataan Stok BBM SPBU")
-        self.root.geometry("600x400")  # Ukuran awal jendela
+        self.root.geometry("600x400") 
         self.user_data = {}  # Simpan data pengguna
         self.current_user = None
         self.pembelian_data = []  # Simpan data pembelian
