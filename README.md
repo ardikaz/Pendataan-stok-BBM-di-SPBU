@@ -16,22 +16,15 @@ FITUR UTAMA
 4. Manajemen Pengadaan : Mendukung pencatatan jadwal pengiriman ulang BBM dan mencatat histori pengadaan.
 
 ALUR KERJA
-1. Input Stok : Operator memasukkan jumlah stok awal saat SPBU mulai beroperasi dan stok akhir setelah operasional selesai.
-2. Pemantauan dan Penjualan : Sistem menghitung penjualan harian secara otomatis berdasarkan perbedaan stok awal dan akhir.
-3. Notifikasi dan Pengadaan : Jika stok mendekati batas ambang, sistem akan mengirimkan notifikasi agar operator segera menghubungi pemasok untuk melakukan pengisian ulang.
-4. Laporan dan Analisis : Operator dapat mengunduh laporan harian atau menganalisis data jangka panjang untuk mengidentifikasi pola konsumsi.
+1. Daftar akun : Operator mendaftarkan akun dengan menyatumkan Username, Password, dan foto profil.
+2. Login akun : Setelah mendaftarkan akun, operator dapat login dengan menggunakan akun yang telah didaftarkan.
+3. input pembelian : Operator memasukan jumlah salah satu jenis BBM dan jumlah liter yang terdapat pada opsi.
+4. jenis BBM : SPBU mempunyai tiga jenis.Diantaranya pertalite, pertamax, dan solar.
+5. jumlah liter : Operator memasukkan jumlah liter yang diinginkan sesuai stok.
+6. Notifikasi dan Pengadaan : Jika stok mendekati batas ambang, sistem akan mengirimkan notifikasi agar operator segera menghubungi pemasok untuk melakukan pengisian ulang.
+7. Laporan dan Analisis : Operator dapat menganalisis data stok pada menu Riwayat Pembelian.
 
 STRUKTUR DATABASE
-Bahasa Pemrograman : Python 
-KOLOM              TIPE DATA        DESKRIPSI 
-id                 Integer          Nomor unik identifikasi entri
-jenis_bbm          VARCHAR	        Nama jenis BBM (Pertalite/Pertamax/Solar)
-volume_awal        DECIMAL	        Volume stok awal
-volume_masuk       DECIMAL          Volume BBM yang masuk
-volume_keluar      DECIMAL          Volume BBM yang terjual
-volume_akhir       DECIMAL          Volume stok akhir
-tanggal_input	     DATE             Tanggal pencatatan stok
-petugas_id         Integer          ID petugas yang melakukan pencatatan
 
 
 
