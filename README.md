@@ -1,5 +1,6 @@
 # Pendataan-stok-BBM-di-SPBU
 DESKRIPSI PEMROGRAMAN
+
 Pemrograman ini dirancang untuk mendukung pengelolaan stok bahan bakar minyak (BBM) di Stasiun Pengisian Bahan Bakar Umum (SPBU). Sistem ini mencakup pendataan, pemantauan, dan analisis stok BBM, termasuk jenis Pertalite, Pertamax, dan Solar, yang merupakan BBM utama yang digunakan masyarakat. Dengan solusi ini, pengelola SPBU dapat menghindari kekurangan stok, memprediksi kebutuhan pengadaan, dan mengoptimalkan distribusi BBM ke konsumen. Sistem ini cocok digunakan oleh SPBU dari berbagai skala, mulai dari SPBU kecil hingga jaringan SPBU besar, serta memungkinkan integrasi dengan sistem lain seperti platform logistik atau manajemen distribusi BBM.
 
 FITUR UTAMA 
