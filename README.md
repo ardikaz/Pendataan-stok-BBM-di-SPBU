@@ -1,3 +1,9 @@
+# Kelas B, Kelompok 1
+Anggota :
+1. Ardika Tri Purnama (I0324073)
+2. Fangkhu Ari Wijaya (I0324079)
+3. Muhammad Daffa Ar-Rozy (I0324087)
+   
 # Pendataan-stok-BBM-di-SPBU
 DESKRIPSI PEMROGRAMAN
 
