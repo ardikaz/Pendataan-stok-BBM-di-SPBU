@@ -22,17 +22,7 @@ ALUR KERJA
 4. Laporan dan Analisis : Operator dapat mengunduh laporan harian atau menganalisis data jangka panjang untuk mengidentifikasi pola konsumsi.
 
 STRUKTUR DATABASE
-Bahasa Pemrograman : Python 
-KOLOM              TIPE DATA        DESKRIPSI 
-id                 Integer          Nomor unik identifikasi entri
-jenis_bbm          VARCHAR	        Nama jenis BBM (Pertalite/Pertamax/Solar)
-volume_awal        DECIMAL	        Volume stok awal
-volume_masuk       DECIMAL          Volume BBM yang masuk
-volume_keluar      DECIMAL          Volume BBM yang terjual
-volume_akhir       DECIMAL          Volume stok akhir
-tanggal_input	     DATE             Tanggal pencatatan stok
-petugas_id         Integer          ID petugas yang melakukan pencatatan
-
+![Screenshot 2024-12-08 174358](https://github.com/user-attachments/assets/9f1c0cd1-e212-470f-a235-9d55aeceec47)
 
 
 
