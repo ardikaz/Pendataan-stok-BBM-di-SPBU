@@ -26,7 +26,6 @@ ALUR KERJA
 
 STRUKTUR DATABASE
 ![Screenshot 2024-12-08 174358](https://github.com/user-attachments/assets/9f1c0cd1-e212-470f-a235-9d55aeceec47)
->>>>>>> 69a5bb373c4d25e116539bd679d31311c7ce37e0
 
 
 
