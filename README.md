@@ -21,6 +21,8 @@ ALUR KERJA
 3. Notifikasi dan Pengadaan : Jika stok mendekati batas ambang, sistem akan mengirimkan notifikasi agar operator segera menghubungi pemasok untuk melakukan pengisian ulang.
 4. Laporan dan Analisis : Operator dapat mengunduh laporan harian atau menganalisis data jangka panjang untuk mengidentifikasi pola konsumsi.
 
+![Screenshot 2024-12-08 174358](https://github.com/user-attachments/assets/9f1c0cd1-e212-470f-a235-9d55aeceec47)
+
 STRUKTUR DATABASE
 Bahasa Pemrograman : Python 
 KOLOM              TIPE DATA        DESKRIPSI 
