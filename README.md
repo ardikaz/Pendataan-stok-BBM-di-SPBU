@@ -32,7 +32,9 @@ STRUKTUR DATABASE
 
 ![prokom](https://github.com/user-attachments/assets/cbb35fb8-be51-46cf-8375-b7cd0afa5760)
 
+# Sitemap
 
+![WhatsApp Image 2024-12-08 at 23 11 08_57ffdb5f](https://github.com/user-attachments/assets/d7b91081-642e-456b-8700-c7266a299c78)
 
 
 
