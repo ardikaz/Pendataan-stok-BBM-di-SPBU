@@ -1,139 +1,314 @@
 import tkinter as tk
-from tkinter import messagebox
-from tkinter import ttk
-from datetime import datetime 
+from tkinter import messagebox, filedialog, ttk
+from datetime import datetime
+import os
+from PIL import Image, ImageTk
+from csv1 import csv1
+
+# Import modul kustom
+from user_management import ManajemenUser
+from stok_management import StokBBM
 
 class AplikasiSPBU:
     def __init__(self, root):
         self.root = root
-        self.root.title("Aplikasi Pendataan Stok BBM SPBU")
-        self.root.geometry("600x400") 
-        self.user_data = {}  # Simpan data pengguna
+        self.root.title("Aplikasi Pendataan BBM Pertamina")
+        self.root.geometry("800x600")
+        
+        # Styling mirip Pertamina
+        self.root.configure(bg='#DC241F')  # Warna merah Pertamina
+        
+        
+        # Inisialisasi modul
+        self.manajemen_user = ManajemenUser()
+        self.stok_bbm = StokBBM()
+        
+        # Data pembelian
+        self.pembelian_data = []
         self.current_user = None
-        self.pembelian_data = []  # Simpan data pembelian
-
+        self.foto_profil = None
+        
+        # Mulai dengan menu login
         self.menu_login()
 
     def menu_login(self):
         self.clear_window()
-        tk.Label(self.root, text="Login", font=("Arial", 16)).pack(pady=10)
-        tk.Label(self.root, text="Username").pack(pady=5)
-        self.username_entry = tk.Entry(self.root)
+        
+        # Background mirip website Pertamina
+        self.root.configure(bg='#DC241F')
+        
+        frame = tk.Frame(self.root, bg='white', padx=20, pady=20)
+        frame.place(relx=0.5, rely=0.5, anchor='center')
+        
+        tk.Label(frame, text="Login SPBU Pertamina", font=("Arial", 16), fg='#DC241F', bg='white').pack(pady=10)
+        
+        # Username
+        tk.Label(frame, text="Username", bg='white').pack(pady=5)
+        self.username_entry = tk.Entry(frame, width=30)
         self.username_entry.pack(pady=5)
-        tk.Label(self.root, text="Password").pack(pady=5)
-        self.password_entry = tk.Entry(self.root, show='*')
+        
+        # Password
+        tk.Label(frame, text="Password", bg='white').pack(pady=5)
+        self.password_entry = tk.Entry(frame, show='*', width=30)
         self.password_entry.pack(pady=5)
-        tk.Button(self.root, text="Login", command=self.login).pack(pady=10)
-        tk.Button(self.root, text="Daftar", command=self.daftar).pack(pady=5)
+        
+        # Tombol Foto Profil
+        self.foto_label = tk.Label(frame, text="Belum ada foto profil", bg='white')
+        self.foto_label.pack(pady=10)
+        
+        tk.Button(frame, text="Pilih Foto Profil", command=self.pilih_foto_profil, 
+                  bg='#DC241F', fg='white').pack(pady=10)
+        
+        # Tombol Login dan Daftar
+        btn_frame = tk.Frame(frame, bg='white')
+        btn_frame.pack(pady=10)
+        
+        tk.Button(btn_frame, text="Login", command=self.login, 
+                  bg='#DC241F', fg='white', width=15).pack(side=tk.LEFT, padx=5)
+        tk.Button(btn_frame, text="Daftar", command=self.daftar, 
+                  bg='#DC241F', fg='white', width=15).pack(side=tk.LEFT, padx=5)
+
+    def pilih_foto_profil(self):
+        filename = filedialog.askopenfilename(
+            title="Pilih Foto Profil", 
+            filetypes=[("Image files", "*.jpg *.jpeg *.png *.gif")]
+        )
+        if filename:
+            # Simpan path foto
+            self.foto_profil = filename
+            
+            # Tampilkan preview foto
+            try:
+                # Buka dan resize gambar
+                img = Image.open(filename)
+                img.thumbnail((100, 100))  # Resize gambar
+                photo = ImageTk.PhotoImage(img)
+                
+                # Update label dengan foto
+                self.foto_label.config(image=photo, text="")
+                self.foto_label.image = photo  # Simpan referensi
+            except Exception as e:
+                messagebox.showerror("Error", f"Gagal memuat foto: {e}")
+                self.foto_label.config(text="Gagal memuat foto", image='')
 
     def daftar(self):
         username = self.username_entry.get()
         password = self.password_entry.get()
-        if username in self.user_data:
-            messagebox.showerror("Error", "Username sudah terdaftar.")
-        else:
-            self.user_data[username] = password
-            messagebox.showinfo("Success", "Akun berhasil dibuat.")
+        
+        try:
+            # Pastikan foto profil dipilih
+            if not self.foto_profil:
+                messagebox.showwarning("Peringatan", "Silakan pilih foto profil")
+                return
+            
+            # Tambah user
+            self.manajemen_user.tambah_user(username, password, self.foto_profil)
+            messagebox.showinfo("Sukses", "Akun berhasil dibuat")
+            
+            # Set current user dan pindah ke menu utama
             self.current_user = username
             self.menu_utama()
+        except ValueError as e:
+            messagebox.showerror("Error", str(e))
 
     def login(self):
         username = self.username_entry.get()
         password = self.password_entry.get()
-        if username in self.user_data and self.user_data[username] == password:
+        
+        users = self.manajemen_user.users
+        if username in users and users[username]['password'] == password:
+            # Set current user
             self.current_user = username
+            
+            # Set foto profil dari data user
+            self.foto_profil = users[username].get('foto_profil', None)
+            
+            # Pindah ke menu utama
             self.menu_utama()
         else:
-            messagebox.showerror("Error", "Akun belum terdaftar. Silakan daftar terlebih dahulu.")
+            messagebox.showerror("Error", "Login gagal")
+
+    def logout(self):
+        self.current_user = None
+        self.foto_profil = None
+        self.menu_login()
 
     def menu_utama(self):
         self.clear_window()
-        tk.Label(self.root, text="Menu Utama", font=("Arial", 16)).pack(pady=10)
-        tk.Button(self.root, text="Lihat Data Riwayat Pembelian dan Restok", command=self.menu_riwayat).pack(pady=10)
-        tk.Button(self.root, text="Pendataan Pembelian dan Restok", command=self.menu_pendataan).pack(pady=10)
-        tk.Button(self.root, text="Keluar", command=self.root.quit).pack(pady=10)
+        
+        # Header dengan info user
+        header_frame = tk.Frame(self.root, bg='#DC241F')
+        header_frame.pack(fill='x')
+        
+        # Tampilkan foto profil di header
+        if self.foto_profil and os.path.exists(self.foto_profil):
+            try:
+                img = Image.open(self.foto_profil)
+                img.thumbnail((50, 50))  # Resize kecil untuk header
+                photo = ImageTk.PhotoImage(img)
+                
+                foto_label = tk.Label(header_frame, image=photo, bg='#DC241F')
+                foto_label.image = photo  # Simpan referensi
+                foto_label.pack(side='left', padx=10, pady=5)
+            except Exception:
+                pass
+        
+        # Label nama user
+        tk.Label(header_frame, text=f"Selamat Datang, {self.current_user}", 
+                 fg='white', bg='#DC241F', font=('Arial', 12)).pack(side='left', padx=10)
+        
+        # Tombol logout
+        tk.Button(header_frame, text="Logout", command=self.logout, 
+                  bg='white', fg='#DC241F').pack(side='right', padx=10, pady=5)
+        
+        # Konten menu utama
+        tk.Label(self.root, text="Menu Utama SPBU Pertamina", 
+                 font=("Arial", 16), fg='#DC241F').pack(pady=20)
+        
+        # Frame untuk menu
+        menu_frame = tk.Frame(self.root)
+        menu_frame.pack()
+        
+        # Daftar menu
+        menus = [
+            ("Riwayat Pembelian", self.menu_riwayat),
+            ("Input Pembelian", self.menu_pendataan),
+            ("Keluar", self.root.quit)
+        ]
+        
+        # Buat tombol menu
+        for label, command in menus:
+            tk.Button(menu_frame, text=label, command=command, 
+                      bg='#DC241F', fg='white', width=20, height=2).pack(pady=10)
 
     def menu_riwayat(self):
         self.clear_window()
-        tk.Label(self.root, text="Riwayat Pembelian dan Restok", font=("Arial", 16)).pack(pady=10)
-        self.tree = ttk.Treeview(self.root, columns=("Jenis BBM", "Tanggal", "Jumlah (Liter)"), show='headings')
-        self.tree.heading("Jenis BBM", text="Jenis BBM")
-        self.tree.heading("Tanggal", text="Tanggal")
-        self.tree.heading("Jumlah (Liter)", text="Jumlah (Liter)")
-        self.tree.pack(pady=10)
-
+        
+        tk.Label(self.root, text="Riwayat Pembelian", 
+                 font=("Arial", 16), fg='#DC241F').pack(pady=10)
+        
+        # Tabel riwayat pembelian
+        columns = ("Jenis BBM", "Jumlah (Liter)", "Harga per Liter", "Total Harga", "Sisa Stok")
+        tree = ttk.Treeview(self.root, columns=columns, show='headings')
+        
+        # Atur kolom
+        for col in columns:
+            tree.heading(col, text=col)
+            tree.column(col, width=100, anchor='center')
+        
+        tree.pack(pady=10, padx=20, fill='both', expand=True)
+        
+        # Tambahkan data pembelian ke tabel
         for data in self.pembelian_data:
-            self.tree.insert("", "end", values=data)
-
-        tk.Button(self.root, text="Kembali", command=self.menu_utama).pack(pady=10)
+            tree.insert("", "end", values=data)
+        
+        # Tombol kembali
+        tk.Button(self.root, text="Kembali", command=self.menu_utama, 
+                  bg='#DC241F', fg='white').pack(pady=10)
 
     def menu_pendataan(self):
         self.clear_window()
-        tk.Label(self.root, text="Pendataan Pembelian dan Restok", font=("Arial", 16)).pack(pady=10)
-        self.jenis_bbm = tk.StringVar()
-        tk.Radiobutton(self.root, text="Pertalite", variable=self.jenis_bbm, value="Pertalite").pack(pady=5)
-        tk.Radiobutton(self.root, text="Pertamax", variable=self.jenis_bbm, value="Pertamax").pack(pady=5)
-        tk.Radiobutton(self.root, text="Solar", variable=self.jenis_bbm, value="Solar").pack(pady=5)
-
-        tk.Label(self.root, text="Tanggal Pembelian (dd, mm, yyyy)").pack(pady=5)
-        self.tanggal_entry = tk.Entry(self.root)
-        self.tanggal_entry.pack(pady=5)
         
-        tk.Label(self.root, text="Jumlah Pembelian (Liter)").pack(pady=5)
-        self.jumlah_entry = tk.Entry(self.root)
-        self.jumlah_entry.pack(pady=5)
-
-        tk.Button(self.root, text="Input Pembelian", command=self.input_pembelian).pack(pady=10)
-        tk.Button(self.root, text="Kembali", command=self.menu_utama).pack(pady=5)
-
-    def input_pembelian(self):
-        jenis_bbm = self.jenis_bbm.get()
-        tanggal_input = self.tanggal_entry.get()
-        jumlah_pembelian_input = self.jumlah_entry.get()
-
-        try:
-            # Validasi tanggal
-            tanggal_parts = tanggal_input.split(',')
-            if len(tanggal_parts) != 3:
-                raise ValueError("Format tanggal salah. Gunakan format dd, mm, yyyy.")
-            tanggal = int(tanggal_parts[0].strip())
-            bulan = int(tanggal_parts[1].strip())
-            tahun = int(tanggal_parts[2].strip())
-            tanggal_pembelian = datetime(year=tahun, month=bulan, day=tanggal)
-
-            # Validasi jumlah pembelian
-            jumlah_pembelian = float(jumlah_pembelian_input)
-            if jumlah_pembelian > 1000:
-                messagebox.showinfo('Warning', f'Pembelian mencapai ambang batas')
-            else:
-                self.pembelian_data.append((jenis_bbm, tanggal_pembelian.strftime("%Y-%m-%d"), jumlah_pembelian))
-                messagebox.showinfo("Success", f"Pembelian {jenis_bbm} pada {tanggal_pembelian.strftime('%Y-%m-%d')} berhasil dicatat.")
-
-            # Update stok
-            def restok(self, jenis_bbm):
-              if self.cek_stok(jenis_bbm) < self.ambang_batas:
-                messagebox.showinfo('Warning', f'Pembelian mencapai ambang batas')
-            self.stok_awal[jenis_bbm] = 1000  # Mengembalikan ke stok awal
-            print(f"Stok {jenis_bbm} telah direstok ke {self.stok_awal[jenis_bbm]}.")
-
-            self.stok_bbm.input_stok_awal(jenis_bbm, self.stok_bbm.cek_stok(jenis_bbm) - jumlah_pembelian)
-            messagebox.showinfo
+        tk.Label(self.root, text="Input Pembelian BBM", 
+                 font=("Arial", 16), fg='#DC241F').pack(pady=10)
+        
+        # Tampilkan stok saat ini
+        stok_frame = tk.Frame(self.root)
+        stok_frame.pack(pady=10)
+        
+        for jenis, stok in self.stok_bbm.stok.items():
+            tk.Label(stok_frame, text=f"Stok {jenis}: {stok} Liter", 
+                     fg='#DC241F').pack(side=tk.LEFT, padx=10)
+        
+        # Frame input
+        input_frame = tk.Frame(self.root)
+        input_frame.pack(pady=10)
+        
+        # Pilih jenis BBM
+        jenis_bbm = tk.StringVar(value="Pertalite")
+        tk.Label(input_frame, text="Jenis BBM:", fg='#DC241F').grid(row=0, column=0, padx=5)
+        jenis_options = ["Pertalite", "Pertamax", "Solar"]
+        jenis_dropdown = ttk.Combobox(input_frame, textvariable=jenis_bbm, 
+                                      values=jenis_options, state="readonly")
+        jenis_dropdown.grid(row=0, column=1, padx=5)
+        
+        # Tanggal
+        tk.Label(input_frame, text="Tanggal (dd,mm,yyyy):", fg='#DC241F').grid(row=1, column=0, padx=5)
+        tanggal_entry = tk.Entry(input_frame)
+        tanggal_entry.grid(row=1, column=1, padx=5)
+        
+        # Metode pembelian
+        tk.Label(input_frame, text="Metode:", fg='#DC241F').grid(row=2, column=0, padx=5)
+        metode_var = tk.StringVar(value="Liter")
+        metode_dropdown = ttk.Combobox(input_frame, textvariable=metode_var, 
+                                       values=["Liter", "Rupiah"], state="readonly")
+        metode_dropdown.grid(row=2, column=1, padx=5)
+        
+        # Input jumlah
+        tk.Label(input_frame, text="Jumlah:", fg='#DC241F').grid(row=3, column=0, padx=5)
+        input_entry = tk.Entry(input_frame)
+        input_entry.grid(row=3, column=1, padx=5)
+        
+        def proses_pembelian():
+            try:
+                jenis = jenis_bbm.get()
+                metode = metode_var.get()
+                jumlah_input = float(input_entry.get())
+                
+                # Validasi tanggal
+                tanggal_str = tanggal_entry.get()
+                tanggal_parts = tanggal_str.split(',')
+                tanggal = datetime(
+                    day=int(tanggal_parts[0]), 
+                    month=int(tanggal_parts[1]), 
+                    year=int(tanggal_parts[2])
+                )
+                
+                # Hitung jumlah liter dan total harga
+                total_harga = self.stok_bbm.hitung_total_pembelian(jenis, jumlah_input, metode)
+                
+                # Cek dan kurangi stok
+                if self.stok_bbm.kurangi_stok(jenis, jumlah_input):
+                    # Catat pembelian
+                    data_pembelian = (
+                        jenis, 
+                        jumlah_input, 
+                        self.stok_bbm.harga[jenis], 
+                        total_harga, 
+                        self.stok_bbm.cek_stok(jenis)
+                    )
+                    self.pembelian_data.append(data_pembelian)
+                    
+                    messagebox.showinfo("Sukses", f"Pembelian {jenis} berhasil")
+                    
+                    # Cek restok otomatis
+                    if self.stok_bbm.restok_otomatis(jenis):
+                        messagebox.showinfo("Restok", f"Stok {jenis} telah direstok")
+                else:
+                    messagebox.showerror("Error", "Stok tidak mencukupi")
             
+            except Exception as e:
+                messagebox.showerror("Error", str(e))
+        
+        # Tombol proses
+        proses_btn = tk.Button(self.root, text="Proses Pembelian", 
+                               command=proses_pembelian, 
+                               bg='#DC241F', fg='white')
+        proses_btn.pack(pady=10)
+        
+        # Tombol kembali
+        tk.Button(self.root, text="Kembali", command=self.menu_utama, 
+                  bg='#DC241F', fg='white').pack(pady=5)
 
-            # Cek stok dan restok jika perlu
-            self.stok_bbm.restok(restok)
-
-        except ValueError as e:
-            messagebox.showerror("Error", str(e))
-
-    # Fungsi untuk membersihkan jendela
     def clear_window(self):
         for widget in self.root.winfo_children():
             widget.destroy()
 
 # Main program
-if __name__ == "__main__":
+def main():
     root = tk.Tk()
     app = AplikasiSPBU(root)
     root.mainloop()
-    
+
+if __name__ == "__main__":
+    main()
