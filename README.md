@@ -4,7 +4,7 @@ Anggota :
 2. Fangkhu Ari Wijaya (I0324079)
 3. Muhammad Daffa Ar-Rozy (I0324087)
    
-# Pendataan-stok-BBM-di-SPBU
+# Pendataan Stok BBM di SPBU
 DESKRIPSI PEMROGRAMAN
 
 Pemrograman ini dirancang untuk mendukung pengelolaan stok bahan bakar minyak (BBM) di Stasiun Pengisian Bahan Bakar Umum (SPBU). Sistem ini mencakup pendataan, pemantauan, dan analisis stok BBM, termasuk jenis Pertalite, Pertamax, dan Solar, yang merupakan BBM utama yang digunakan masyarakat. Dengan solusi ini, pengelola SPBU dapat menghindari kekurangan stok, memprediksi kebutuhan pengadaan, dan mengoptimalkan distribusi BBM ke konsumen. Sistem ini cocok digunakan oleh SPBU dari berbagai skala, mulai dari SPBU kecil hingga jaringan SPBU besar, serta memungkinkan integrasi dengan sistem lain seperti platform logistik atau manajemen distribusi BBM.
@@ -25,7 +25,12 @@ ALUR KERJA
 7. Laporan dan Analisis : Operator dapat menganalisis data stok pada menu Riwayat Pembelian.
 
 STRUKTUR DATABASE
+
 ![Screenshot 2024-12-08 174358](https://github.com/user-attachments/assets/9f1c0cd1-e212-470f-a235-9d55aeceec47)
+
+# Flowchart
+
+![prokom](https://github.com/user-attachments/assets/cbb35fb8-be51-46cf-8375-b7cd0afa5760)
 
 
 
