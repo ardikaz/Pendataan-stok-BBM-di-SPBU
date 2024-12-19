@@ -3,7 +3,7 @@ from tkinter import messagebox, filedialog, ttk
 from datetime import datetime
 import os
 from PIL import Image, ImageTk
-from csv1 import csv1
+from csv_storage import CSVManager
 from user_management import ManajemenUser
 from stok_management import StokBBM
 
@@ -235,13 +235,6 @@ class AplikasiSPBU:
         tanggal_entry = tk.Entry(input_frame)
         tanggal_entry.grid(row=1, column=1, padx=5)
         
-        #metode pembelian
-        tk.Label(input_frame, text="Metode:", fg='#DC241F').grid(row=2, column=0, padx=5)
-        metode_var = tk.StringVar(value="Liter")
-        metode_dropdown = ttk.Combobox(input_frame, textvariable=metode_var, 
-                                       values=["Liter", "Rupiah"], state="readonly")
-        metode_dropdown.grid(row=2, column=1, padx=5)
-        
         #input jumlah
         tk.Label(input_frame, text="Jumlah:", fg='#DC241F').grid(row=3, column=0, padx=5)
         input_entry = tk.Entry(input_frame)
@@ -250,7 +243,7 @@ class AplikasiSPBU:
         def proses_pembelian():
             try:
                 jenis = jenis_bbm.get()
-                metode = metode_var.get()
+                #metode = metode_var.get()
                 jumlah_input = float(input_entry.get())
                 
                 #validasi tanggal
@@ -263,7 +256,7 @@ class AplikasiSPBU:
                 )
                 
                 #hitung jumlah liter dan total harga
-                total_harga = self.stok_bbm.hitung_total_pembelian(jenis, jumlah_input, metode)
+                total_harga = self.stok_bbm.hitung_total_pembelian(jenis, jumlah_input)
                 
                 #cek dan kurangi stok
                 if self.stok_bbm.kurangi_stok(jenis, jumlah_input):
