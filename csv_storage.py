@@ -5,8 +5,8 @@ class CSVManager:
     def __init__(self, user_file='users.csv', transaction_file='transactions.csv'):
         self.user_file = user_file
         self.transaction_file = transaction_file
-
-        # Buat file jika belum ada
+        
+        # Buat file
         self._initialize_file(self.user_file, ['Username', 'Password', 'Foto Profil'])
         self._initialize_file(self.transaction_file, ['Username', 'Jenis BBM', 'Jumlah (Liter)', 'Harga per Liter', 'Total Harga', 'Tanggal'])
 

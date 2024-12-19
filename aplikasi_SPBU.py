@@ -13,21 +13,25 @@ class AplikasiSPBU:
         self.root.title("Aplikasi Pendataan BBM Pertamina")
         self.root.geometry("800x600")
         
-        #warna merah
+        # Warna merah
         self.root.configure(bg='#DC241F')  
         
-        
-        #inisialisasi modul
+        # Inisialisasi modul
+        self.csv_manager = CSVManager()  # Instance CSVManager
         self.manajemen_user = ManajemenUser()
         self.stok_bbm = StokBBM()
         
-        #data pembelian
-        self.pembelian_data = []
+        # Pastikan file CSV dibuat
+        #print(f"File {csv_manager.user_file} dan {csv_manager.transaction_file} siap digunakan.")
+        
+        # Data pembelian
+        self.pembelian_data = self.csv_manager.load_transactions()  # Muat data transaksi dari CSV
         self.current_user = None
         self.foto_profil = None
         
-        #login menu
+        # Login menu
         self.menu_login()
+
 
     def menu_login(self):
         self.clear_window()
@@ -218,7 +222,7 @@ class AplikasiSPBU:
             tk.Label(stok_frame, text=f"Stok {jenis}: {stok} Liter", 
                      fg='#DC241F').pack(side=tk.LEFT, padx=10)
         
-        #frame input
+        #input
         input_frame = tk.Frame(self.root)
         input_frame.pack(pady=10)
         
@@ -243,10 +247,9 @@ class AplikasiSPBU:
         def proses_pembelian():
             try:
                 jenis = jenis_bbm.get()
-                #metode = metode_var.get()
                 jumlah_input = float(input_entry.get())
                 
-                #validasi tanggal
+                # Validasi tanggal
                 tanggal_str = tanggal_entry.get()
                 tanggal_parts = tanggal_str.split(',')
                 tanggal = datetime(
@@ -255,12 +258,12 @@ class AplikasiSPBU:
                     year=int(tanggal_parts[2])
                 )
                 
-                #hitung jumlah liter dan total harga
+                # Hitung jumlah liter dan total harga
                 total_harga = self.stok_bbm.hitung_total_pembelian(jenis, jumlah_input)
                 
-                #cek dan kurangi stok
+                # Cek dan kurangi stok
                 if self.stok_bbm.kurangi_stok(jenis, jumlah_input):
-                    #catat pembelian
+                    # Catat pembelian
                     data_pembelian = (
                         jenis, 
                         jumlah_input, 
@@ -270,9 +273,19 @@ class AplikasiSPBU:
                     )
                     self.pembelian_data.append(data_pembelian)
                     
+                    # Simpan transaksi ke CSV
+                    self.csv_manager.save_transaction(
+                        self.current_user, 
+                        jenis, 
+                        jumlah_input, 
+                        self.stok_bbm.harga[jenis], 
+                        total_harga, 
+                        tanggal_str
+                    )
+                    
                     messagebox.showinfo("Sukses", f"Pembelian {jenis} berhasil")
                     
-                    #cek restok otomatis
+                    # Cek restok otomatis
                     if self.stok_bbm.restok_otomatis(jenis):
                         messagebox.showinfo("Restok", f"Stok {jenis} telah direstok")
                 else:
@@ -280,6 +293,7 @@ class AplikasiSPBU:
             
             except Exception as e:
                 messagebox.showerror("Error", str(e))
+
         
         #tombol proses
         proses_btn = tk.Button(self.root, text="Proses Pembelian", 
