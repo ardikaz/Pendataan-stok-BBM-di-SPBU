@@ -40,11 +40,19 @@ class CSVManager:
                 }
         return users
 
-    def load_transactions(self):
-        """Memuat data transaksi dari file CSV."""
+    def load_transactions(self, username=None):
+        """Memuat data transaksi dari file CSV dan mengembalikan format untuk UI."""
         transactions = []
         with open(self.transaction_file, mode='r', newline='', encoding='utf-8') as file:
             reader = csv.DictReader(file)
             for row in reader:
-                transactions.append(row)
+                if username is None or row['Username'] == username:
+                    transactions.append((
+                        row['Jenis BBM'],               # Jenis BBM
+                        float(row['Jumlah (Liter)']),   # Jumlah (Liter)
+                        float(row['Harga per Liter']),  # Harga per Liter
+                        float(row['Total Harga']),      # Total Harga
+                        row['Tanggal']                 # Tanggal
+                    ))
         return transactions
+

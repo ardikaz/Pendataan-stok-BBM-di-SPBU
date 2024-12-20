@@ -186,27 +186,41 @@ class AplikasiSPBU:
     def menu_riwayat(self):
         self.clear_window()
         
+        # Judul halaman
         tk.Label(self.root, text="Riwayat Pembelian", 
-                 font=("Arial", 16), fg='#DC241F').pack(pady=10)
+                font=("Arial", 16), fg='#DC241F').pack(pady=10)
         
-        #tabel riwayat pembelian
-        columns = ("Jenis BBM", "Jumlah (Liter)", "Harga per Liter", "Total Harga", "Sisa Stok")
+        # Tabel riwayat pembelian
+        columns = ("Jenis BBM", "Jumlah (Liter)", "Harga per Liter", "Total Harga", "Tanggal")
         tree = ttk.Treeview(self.root, columns=columns, show='headings')
         
-        #atur kolom
+        # Atur kolom
         for col in columns:
             tree.heading(col, text=col)
-            tree.column(col, width=100, anchor='center')
+            tree.column(col, width=150, anchor='center')
         
         tree.pack(pady=10, padx=20, fill='both', expand=True)
         
-        #tambahkan data pembelian ke tabel
-        for data in self.pembelian_data:
-            tree.insert("", "end", values=data)
+        try:
+            # Muat data transaksi berdasarkan username
+            user_transactions = self.csv_manager.load_transactions(username=self.current_user)
+            
+            if user_transactions:
+                for data in user_transactions:
+                    tree.insert("", "end", values=data)
+            else:
+                # Tambahkan baris placeholder jika tidak ada data
+                tree.insert("", "end", values=("Tidak ada data", "-", "-", "-", "-"))
         
-        #tombol kembali
+        except Exception as e:
+            # Tangani error saat memuat data
+            messagebox.showerror("Error", f"Gagal memuat data: {e}")
+            tree.insert("", "end", values=("Gagal memuat data", "-", "-", "-", "-"))
+        
+        # Tambahkan tombol kembali
         tk.Button(self.root, text="Kembali", command=self.menu_utama, 
-                  bg='#DC241F', fg='white').pack(pady=10)
+                bg='#DC241F', fg='white').pack(pady=10)
+
 
     def menu_pendataan(self):
         self.clear_window()
