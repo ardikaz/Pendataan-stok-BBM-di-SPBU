@@ -24,14 +24,9 @@ ALUR KERJA
 6. Notifikasi dan Pengadaan : Jika stok mendekati batas ambang, sistem akan mengirimkan notifikasi agar operator segera menghubungi pemasok untuk melakukan pengisian ulang.
 7. Laporan dan Analisis : Operator dapat menganalisis data stok pada menu Riwayat Pembelian.
 
-STRUKTUR DATABASE
-
-![Screenshot 2024-12-08 174358](https://github.com/user-attachments/assets/9f1c0cd1-e212-470f-a235-9d55aeceec47)
-
 # Flowchart
 
 ![new](https://github.com/user-attachments/assets/73ab2f76-833a-492a-925d-6b29f19ffebf)
-
 
 # Sitemap
 
