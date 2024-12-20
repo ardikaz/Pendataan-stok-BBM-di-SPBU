@@ -34,8 +34,7 @@ STRUKTUR DATABASE
 
 # Sitemap
 
-![Pastel Pink and Peach Gradient Creative Agency Graph ](https://github.com/user-attachments/assets/a47e8050-c1c4-423c-a424-37a26cf80cb1)
-
+https://www.canva.com/design/DAGZxxWZeuE/B3eJYm0-tsZw7UfF1TYCnw/edit?utm_content=DAGZxxWZeuE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
 
 
