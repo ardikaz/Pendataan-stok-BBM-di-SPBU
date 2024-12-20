@@ -34,7 +34,8 @@ STRUKTUR DATABASE
 
 # Sitemap
 
-![WhatsApp Image 2024-12-08 at 23 11 08_57ffdb5f](https://github.com/user-attachments/assets/d7b91081-642e-456b-8700-c7266a299c78)
+![Pastel Pink and Peach Gradient Creative Agency Graph ](https://github.com/user-attachments/assets/a47e8050-c1c4-423c-a424-37a26cf80cb1)
+
 
 
 
