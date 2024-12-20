@@ -30,7 +30,8 @@ STRUKTUR DATABASE
 
 # Flowchart
 
-![prokom](https://github.com/user-attachments/assets/cbb35fb8-be51-46cf-8375-b7cd0afa5760)
+![new](https://github.com/user-attachments/assets/73ab2f76-833a-492a-925d-6b29f19ffebf)
+
 
 # Sitemap
 
