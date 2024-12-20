@@ -34,7 +34,8 @@ STRUKTUR DATABASE
 
 # Sitemap
 
-https://www.canva.com/design/DAGZxxWZeuE/B3eJYm0-tsZw7UfF1TYCnw/edit?utm_content=DAGZxxWZeuE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+![Screenshot (101)](https://github.com/user-attachments/assets/4b39522f-215a-4ae5-bc95-228443ac9f78)
+
 
 
 
